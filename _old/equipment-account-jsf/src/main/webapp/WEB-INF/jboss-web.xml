@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <security-domain>java:/jaas/inventory-sec-domain</security-domain>
+    <context-root>/equipment-account</context-root>
+
+</jboss-web>

@@ -1,0 +1,173 @@
+= Документация по проекту "Учет оборудования"
+Тимофей Лукашевич <efreet@tut.by>
+:toc:
+
+== Установка приложения
+* Для создания сервера приложений нужены файлы scripts/create.sh и scripts/wildfly.properties. Последний содержит секретную информацию, поэтому добавлен в исключения git и возможно его придётся создать вручную:
+[source,properties]
+----
+KEYSTORE_PASS=<пароль к ключевому хранилищу>
+MASTER_DB=127.0.0.1:33061
+MASTER_DB_USER=<Пользователь для доступа к БД equipment>
+MASTER_DB_PASSWORD=<Пароль пользователя для доступа к БД equipment>
+----
+* Также в нужно указать желаемые версии wildfly и драйвера для mariadb:
+[source,properties]
+----
+JAVA_CLIENT_VERSION=2.7.2
+WILDFLY_VERSION=23.0.2.Final
+----
+* Файл scripts/create.sh нужно запускать из bash (для Windows канает bash из комплекта git-scm). В результате будут произведены действия:
+** Скачан Wildfly указанной версии.
+** Скачан драйвер mariadb указанной версии и добавлен модулем в Wildfly.
+** Созданы хранилища сертификатов для сервера (с единственным самоподписанным сертификатом) и для пользователей (пустое).
+** Сделаны все настройки Wildfly, необходимые для работы приложения.
+
+* Структуру БД и начальное содержимое справочников можно воссоздать с помощью scripts\db\equipment-metadata.sql и scripts\db\equipment-refs.sql
+
+== Добавление пользователей
+Проект может работать с различными схемами аутентификации: по логину-паролю и по сертификату. Добавлять пользователей нужно так, чтобы работали обе схемы. Для этого:
+
+* в файле scripts/make-cert.sh указать путь к файлу с хранилищем сертификатов и пароль для генерируемых ключевых файлов
+[source,bash]
+----
+clientTrustStore=/d/utils/wildfly/equipment/standalone/configuration/certs/users.jks
+...
+export PASS=123456
+----
+* Запустить скрипт из bash, где password - пароль к хранилищу ключей, username - имя пользователя, состоящее *только из латинских букв и цифр*
+[source,bash]
+----
+STOREPASS=password ./make-cert.sh username
+----
+* в хранилище будет добавлен сертификат, а в папке temp/key-out будет создан набор ключевых файлов.
+
+* в таблице equipment.user надо добавить для нового пользователя запись, указав user.login = username из второго пункта; user.password=SHA1(desired-password), #user.login_cert="cn=username, ou=uist, o=bto, l=minsk, c=by"# (#????#) (это для аутентификации по сертификату)
+
+* при помощи таблицы связи equipment.user_role дать пользователю членство в группах ("ролях")
+
+== Сборка
+Для сборки с аутентификацией по логину-паролю нужно указать переменную окружения authType=PASS:
+[source, bash]
+----
+authType=PASS ./gradlew clean war
+----
+Для сборки с аутентификацией по сертификату нужно просто запустить сборку без указания переменной authType:
+[source, bash]
+----
+./gradlew clean war
+----
+
+== Отладка
+В связи с тем, что отладка фронтенда требует запущенного бэкенда и dev-сервер quasar не умеет работать с сертификатами, нужно создать в Intellij Idea конфигурацию запуска приложения с использованием Wildfly, а в разделе _Before launch_ создать задачу _gradle war_ с установкой переменной окружения authType=PASS
+
+Для запуска отладочного сервера фронтенда надо:
+
+```
+cd app/src/main/front\
+quasar dev
+```
+и потом открыть браузер на странице http://localhost:8081/equipment-account
+
+== Просмотр документации
+Для просмотра документации в формате можно использовать один из следующих вариантов:
+
+=== APIB (API Blueprint)
+
+==== Snowboard
+
+.Установить node.js и пакет snowboard:
+[source,cmd]
+----
+npm install -g snowboard
+----
+
+.Преобразовать в html:
+[source,cmd]
+----
+snowboard html -o api/index.html ds.apib
+----
+
+=== YAML (Swagger, openapi)
+
+==== Docker
+
+Запускаем редактор на каком-нибудь сервере с докером:
+```
+docker run --rm -d -p 8088:8080 swaggerapi/swagger-editor
+```
+Редактируем, не забывая сохраняться.
+
+Еще можно пробовать положить в текущую папку наш openapi.yaml и преобразовать в html такими командами:
+
+```
+docker run --rm -v $PWD:/local openapitools/openapi-generator-cli generate -i /local/openapi.yaml -g html -o /local/out
+docker run --rm -v $PWD:/local openapitools/openapi-generator-cli generate -i /local/openapi.yaml -g html2 -o /local/out
+docker run --rm -v $PWD:/local openapitools/openapi-generator-cli generate -i /local/openapi.yaml -g dynamic-html -o /local/out
+```
+
+Но там всё корявенько...
+
+==== Локально
+
+Чтобы не заморачиваться с докером, из контейнера докера swaggerapi/swagger-editor можно вытащить файлы, нужные для работы. Для этого запустить контейнер и дать команду:
+```
+docker export -o file.tar <id контейнера>
+```
+Получим архив, где по пути /usr/share/nginx/html лежит веб-приложение.
+
+==== На веб-сервере
+
+Скачиваем https://github.com/swagger-api/swagger-ui.git или тупо во временной папке запускаем *npm install swagger-ui-dist*. Из всего добра нужна папка *dist*.
+В нее подкладываем файлик со своим api и прописываем ссылку на него в файле dist/index.html (url https://petstore.swagger.io/v2/swagger.json меняем на ./openapi.yaml). Выкладываем на сервер и радуемся жизни.
+
+Для хостинга нескольких файлов можно вписать в index.html такие строки:
+[source,cmd]
+----
+<html>
+...
+  <body>
+  ...
+    <script>
+      function getRequests() {
+        var s1 = location.search
+            .substring(1, location.search.length)
+            .split("&"),
+          r = {},
+          s2,
+          i
+        for (i = 0; i < s1.length; i += 1) {
+          s2 = s1[i].split("=")
+          r[decodeURIComponent(s2[0]).toLowerCase()] = decodeURIComponent(s2[1])
+        }
+        return r
+      }
+      window.onload = function () {
+        let QueryString = getRequests();
+        let path = QueryString["path"];
+        // Begin Swagger UI call region
+        const ui = SwaggerUIBundle({
+          //url: "https://petstore.swagger.io/v2/swagger.json",
+          url: path,
+          dom_id: "#swagger-ui",
+          deepLinking: true,
+          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+          plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+          layout: "StandaloneLayout",
+        })
+        // End Swagger UI call region
+
+        window.ui = ui
+      }
+    </script>
+  </body>
+</html>
+----
+
+== История изменений
+=== 11.05.2021 19:43
+[+] Документация
+
+[+] Два варианта сборки под различные схемы аутентификации: по логину-паролю и по сертификату. По умолчанию - по сертификату.
+
+[+] В БД добавлена таблица action для регистрации действий с оборудованием (ремонт, обслуживание и т.д.)

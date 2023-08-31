@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/Activities">
+
+    <Button
+        android:id="@+id/ButtonScan"
+        style="@style/Buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:drawableLeft="@drawable/scan_icon"
+        android:paddingLeft="90dp"
+        android:drawablePadding="-120dp"
+        android:text="@string/scan"/>
+
+    <Button
+        android:id="@+id/ButtonRegister"
+        style="@style/Buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/add_icon"
+        android:paddingLeft="60dp"
+        android:drawablePadding="-90dp"
+        android:text="@string/register_new_item" />
+
+    <Button
+        android:id="@+id/ButtonChange"
+        style="@style/Buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/change_icon"
+        android:paddingLeft="100dp"
+        android:drawablePadding="-130dp"
+        android:text="@string/change_item_state"/>
+
+    <Button
+        android:id="@+id/ButtonSettings"
+        style="@style/Buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/settings_icon"
+        android:paddingLeft="90dp"
+        android:drawablePadding="-120dp"
+        android:text="@string/action_settings" />
+
+    <TextView
+        android:id="@+id/LogText"
+        style="@style/LogText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DDDCDC" />
+
+</LinearLayout>

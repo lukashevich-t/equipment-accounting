@@ -1,0 +1,40 @@
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--в данном блоке можно настроить много параметров. Полный список параметров http://mybatis.github.io/mybatis-3/configuration.html#settings-->
+    <!--    <settings>
+            <setting name="logImpl" value="LOG4J"/>
+        </settings>-->
+
+<!--    псевдонимы почему-то не работают (в виде аннотаций-тоже)-->
+<!--    <typeAliases>
+        <typeAlias type="by.gto.equipment.account.model.Equipment" alias="Equipment"/>
+        <typeAlias type="by.gto.equipment.account.model.EquipmentDescr" alias="EquipmentDescr"/>
+        <typeAlias type="by.gto.equipment.account.model.LogEntryPresentation" alias="LogEntryPresentation"/>
+        <package name="by.gto.equipment.account.model"/>
+    </typeAliases>-->
+
+    <typeHandlers>
+        <typeHandler handler="org.apache.ibatis.type.ByteArrayTypeHandler"/>
+        <!-- <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" />-->
+        <!-- <package name="io.quarkiverse.it.mybatis"/>-->
+    </typeHandlers>
+
+    <!-- setup environment with Quarkus data source -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/> <!--MANAGED-->
+            <dataSource type="QUARKUS">
+                <!-- <property name="db" value="h2"/>-->
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+<!--         <mapper resource="by/gto/erip/dao/mybatis/mappers/PaymentMappers.xml"/>-->
+<!--         <mapper resource="by/gto/equipment/account/mappers/GlobalMapper.xml"/>-->
+<!--        <package name="by.gto.equipment.account.mappers"/>-->
+    </mappers>
+</configuration>

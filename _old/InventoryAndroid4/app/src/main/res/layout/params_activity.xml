@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/Activities">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/EquipmentTypeText"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:hint="Тип оборудования"
+            android:maxLines="1" />
+
+        <ImageButton
+            android:id="@+id/bSelectEqType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.8"
+            android:src="@android:drawable/arrow_down_float" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/StatusTypeText"
+            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:maxLines="1"
+            android:hint="Состояние"
+            style="@style/EditTextStyle"/>
+
+        <ImageButton
+            android:id="@+id/bSelectEqState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.8"
+            android:src="@android:drawable/arrow_down_float" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/ResponsibleTypeText"
+            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:maxLines="1"
+            android:hint="Ответственный"
+            style="@style/EditTextStyle"/>
+
+        <ImageButton
+            android:id="@+id/bSelectPerson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.8"
+            android:src="@android:drawable/arrow_down_float" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/CommentText"
+        android:layout_width="match_parent"
+        android:hint="Комментарий"
+        android:maxLines="1"
+        style="@style/EditTextStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/SerialNumberText"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:hint="Серийник"
+            android:maxLines="1" />
+
+        <ImageButton
+            android:id="@+id/SerialNumberButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.8"
+            android:src="@drawable/barcode_ico" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ButtonOk"
+        style="@style/Buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="10dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:text="Отправить" />
+
+    <TextView
+        android:id="@+id/LogText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DDDCDC"
+        style="@style/LogText"/>
+
+</LinearLayout>

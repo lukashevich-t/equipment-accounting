@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/Activities">
+
+    <EditText
+        android:id="@+id/etBaseURL"
+        android:layout_width="match_parent"
+        style="@style/EditTextStyle"
+        android:layout_marginTop="35dp"
+        android:hint="Базовый URL"/>
+
+    <EditText
+        android:id="@+id/etKeyStorePassword"
+        android:layout_width="match_parent"
+        android:hint="Пароль на сертификат"
+        android:inputType="textPassword"
+        style="@style/EditTextStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ButtonKeyImport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Импорт ключа"
+            android:layout_weight="0.5"
+            style="@style/Buttons"/>
+
+        <Button
+            android:id="@+id/ButtonCertInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cert info"
+            android:layout_weight="0.5"
+            style="@style/Buttons"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ButtonOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="OK"
+            style="@style/Buttons"/>
+
+        <Button
+            android:id="@+id/ButtonCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Отмена"
+            style="@style/Buttons"/>
+
+    </LinearLayout>
+
+</LinearLayout>

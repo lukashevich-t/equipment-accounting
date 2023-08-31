@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="by.gto.equipment.account.mappers.GlobalMapper">
+
+    <insert id="logEquipmentChange">
+        INSERT INTO equipment.log (equipment_id, action_id, user_id, comment, `time`)
+        VALUES (#{guid}, #{actionId}, #{userId}, #{comment}, #{date})
+    </insert>
+
+    <insert id="createReference" useGeneratedKeys="true" keyProperty="ref.id">
+        INSERT INTO ${refName} (`name`)
+        VALUES (#{ref.name})
+    </insert>
+
+    <insert id="saveEquipment" parameterType="by.gto.equipment.account.model.Equipment">
+        INSERT INTO equipment(id, type_id, person_id, state_id, comment, inv_number, purchase_date, serial)
+        VALUES (#{eq.guid}, #{eq.typeId}, #{eq.personId}, #{eq.stateId}, #{eq.comment}, #{eq.invNumber},
+                #{eq.purchaseDate}, #{eq.serial})
+    </insert>
+
+    <update id="updateEquipment" parameterType="by.gto.equipment.account.model.Equipment">
+        UPDATE equipment
+        set type_id    = #{eq.typeId},
+            person_id  = #{eq.personId},
+            state_id   = #{eq.stateId},
+            comment    = #{eq.comment},
+            inv_number = #{eq.invNumber},
+            serial     = #{eq.serial}
+        where id = #{eq.guid}
+    </update>
+
+    <select id="loadEquipmentsByGuidList" resultType="by.gto.equipment.account.model.Equipment">
+        SELECT e.id guid,
+        e.type_id typeId,
+        e.person_id personId,
+        e.state_id stateId,
+        e.comment,
+        e.inv_number invNumber,
+        e.purchase_date purchaseDate,
+        e.serial
+        FROM equipment e
+        WHERE e.id in (
+        <foreach collection="guids" item="guid" separator=",">#{guid}</foreach>
+        )
+    </select>
+
+    <select id="loadEquipmentDescr" resultType="by.gto.equipment.account.model.EquipmentDescr">
+        SELECT e.id            guid,
+               e.type_id       typeId,
+               e.person_id     personId,
+               e.state_id      stateId,
+               e.comment,
+               e.inv_number    invNumber,
+               e.purchase_date purchaseDate,
+               e.serial,
+               es.name         state,
+               et.name         type,
+               rp.name         person
+        FROM equipment e
+                 LEFT JOIN responsible_person rp ON e.person_id = rp.id
+                 LEFT JOIN equipment_state es ON e.state_id = es.id
+                 LEFT JOIN equipment_type et ON e.type_id = et.id
+        WHERE (e.id = #{guid})
+    </select>
+
+    <select id="getRefIdByName" resultType="java.lang.Integer">
+        SELECT id
+        FROM ${refName} et
+        WHERE LOWER(et.name) = LOWER(#{entityName})
+        LIMIT 1
+    </select>
+
+    <resultMap type="java.lang.String" id="roleNameResult">
+        <result column="role_name" property=""/>
+    </resultMap>
+
+    <resultMap id="userInfoRm" type="by.gto.equipment.account.model.UserInfo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="login" property="login"/>
+        <result column="login_cert" property="loginCert"/>
+        <result column="valid" property="valid"/>
+        <collection property="roles" resultMap="roleNameResult"/>
+    </resultMap>
+
+    <select id="loadUserInfoByLogin" resultMap="userInfoRm">
+        SELECT u.id,
+               u.name,
+               u.login,
+               u.login_cert,
+               u.valid,
+               r.name role_name
+        FROM user u
+                 LEFT JOIN user_role ur ON ur.user_id = u.id
+                 LEFT JOIN role r ON ur.role_id = r.id
+        WHERE u.login = #{login}
+    </select>
+
+    <select id="loadUserInfoByDn" resultMap="userInfoRm">
+        SELECT u.id,
+               u.name,
+               u.login,
+               u.login_cert,
+               u.valid,
+               r.name role_name
+        FROM user u
+                 LEFT JOIN user_role ur ON ur.user_id = u.id
+                 LEFT JOIN role r ON ur.role_id = r.id
+        WHERE u.login_cert = #{dn}
+    </select>
+
+    <select id="getLog" resultType="by.gto.equipment.account.model.LogEntryPresentation">
+        SELECT l.equipment_id guid, a.`name` actionName, u.`name` userName, l.`time`, l.`comment`
+        FROM log l
+                 left join action a ON (l.action_id = a.id)
+                 LEFT JOIN user u ON (l.user_id = u.id)
+        WHERE l.equipment_id = #{guid}
+        order by l.`time` desc
+    </select>
+
+    <select id="loadResponsiblePersons" resultType="by.gto.equipment.account.model.BaseReference">
+        SELECT rp.id, rp.name FROM responsible_person rp order by rp.name
+    </select>
+
+    <select id="loadEquipmentTypes" resultType="by.gto.equipment.account.model.BaseReference">
+        SELECT et.id, et.name FROM equipment_type et order by et.name
+    </select>
+
+    <select id="loadEquipmentStates" resultType="by.gto.equipment.account.model.BaseReference">
+        SELECT es.id, es.name FROM equipment_state es order by es.name
+    </select>
+</mapper>

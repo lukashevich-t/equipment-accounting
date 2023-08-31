@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="none" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/signin.css" type="text/css" rel="stylesheet" />
+    <script src="js/bootstrap.min.js"></script>
+    <title>Вход</title>
+  </head>
+  <body>
+    <div class="container">
+      <form id="HiddenLoginForm" method="POST" action="j_security_check">
+        <input type="hidden" name="j_username" id="j_username" />
+        <input type="hidden" name="j_password" id="j_password" />
+      </form>
+
+      <div class="form-signin">
+        <h2 class="form-signin-heading">Вход</h2>
+        <label for="us" class="sr-only">Пользователь</label>
+        <input
+          type="text"
+          name="us"
+          id="us"
+          class="form-control"
+          placeholder="Пользователь"
+          required
+          autofocus
+          onKeyPress="return checkAndSubmit(event);"
+        />
+        <label for="pa" class="sr-only">Пароль</label>
+        <input
+          type="password"
+          name="pa"
+          id="pa"
+          class="form-control"
+          placeholder="Пароль"
+          required
+          onKeyPress="return checkAndSubmit(event);"
+        />
+        <button
+          class="btn btn-lg btn-primary btn-block"
+          type="submit"
+          onClick="return validateAndLogin();"
+          onKeyPress="return checkAndSubmit(event);"
+        >
+          Войти
+        </button>
+      </div>
+      <script>
+        // For validation- you can modify as you like
+        function validateAndLogin() {
+          var username = document.getElementById("us");
+          var password = document.getElementById("pa");
+
+          if (username && username.value == "") {
+            alert("Введите имя пользователя!");
+            return false;
+          }
+
+          if (password && password.value == "") {
+            alert("Введите пароль!");
+            return false;
+          }
+
+          document.getElementById("j_username").value = username.value;
+          document.getElementById("j_password").value = password.value;
+          document.getElementById("HiddenLoginForm").submit();
+        }
+
+        // For enter event
+        function checkAndSubmit(e) {
+          if (e.keyCode == 13) {
+            validateAndLogin();
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>
