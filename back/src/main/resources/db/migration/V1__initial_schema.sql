@@ -21,8 +21,8 @@ CREATE TABLE user (
 )
 ENGINE = INNODB,
 AUTO_INCREMENT = 3,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci;
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci;
 
 --
 -- Create table `role`
@@ -34,8 +34,8 @@ CREATE TABLE role (
 )
 ENGINE = INNODB,
 AUTO_INCREMENT = 3,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci;
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci;
 
 --
 -- Create table `user_role`
@@ -47,8 +47,8 @@ CREATE TABLE user_role (
 )
 ENGINE = INNODB,
 AVG_ROW_LENGTH = 4096,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci;
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci;
 
 --
 -- Create foreign key
@@ -75,8 +75,8 @@ CREATE TABLE responsible_person (
 ENGINE = INNODB,
 AUTO_INCREMENT = 6,
 AVG_ROW_LENGTH = 3276,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci,
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci,
 COMMENT = 'Ответственные лица';
 
 --
@@ -90,8 +90,8 @@ CREATE TABLE equipment_type (
 ENGINE = INNODB,
 AUTO_INCREMENT = 10,
 AVG_ROW_LENGTH = 2730,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci,
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci,
 COMMENT = 'Справочник типов объектов инвентаризации';
 
 --
@@ -111,8 +111,8 @@ CREATE TABLE equipment_state (
 ENGINE = INNODB,
 AUTO_INCREMENT = 10,
 AVG_ROW_LENGTH = 1820,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci,
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci,
 COMMENT = 'Справочник состояний объектов инвентаризации';
 
 --
@@ -131,8 +131,8 @@ CREATE TABLE equipment (
 )
 ENGINE = INNODB,
 AVG_ROW_LENGTH = 1489,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci;
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci;
 
 --
 -- Create foreign key
@@ -167,8 +167,8 @@ CREATE TABLE log (
 )
 ENGINE = INNODB,
 AVG_ROW_LENGTH = 2048,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci;
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci;
 
 --
 -- Create table `action`
@@ -180,8 +180,8 @@ CREATE TABLE action (
 )
 ENGINE = INNODB,
 AVG_ROW_LENGTH = 3276,
-CHARACTER SET utf8mb3,
-COLLATE utf8mb3_general_ci;
+CHARACTER SET utf8mb4,
+COLLATE utf8mb4_general_ci;
 
 -- 
 -- Dumping data for table user
