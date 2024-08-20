@@ -65,31 +65,27 @@ ADD CONSTRAINT FK_user_role_user_id FOREIGN KEY (user_id)
 REFERENCES user (id);
 
 --
--- Create table `responsible_person`
+-- Create table `ref_responsible_person`
 --
-CREATE TABLE responsible_person (
+CREATE TABLE ref_responsible_person (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 6,
-AVG_ROW_LENGTH = 3276,
 CHARACTER SET utf8mb4,
 COLLATE utf8mb4_general_ci,
-COMMENT = 'Ответственные лица';
+COMMENT = 'Справочник ответственных лиц';
 
 --
--- Create table `equipment_type`
+-- Create table `ref_equipment_type`
 --
-CREATE TABLE equipment_type (
+CREATE TABLE ref_equipment_type (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 10,
-AVG_ROW_LENGTH = 2730,
 CHARACTER SET utf8mb4,
 COLLATE utf8mb4_general_ci,
 COMMENT = 'Справочник типов объектов инвентаризации';
@@ -97,20 +93,18 @@ COMMENT = 'Справочник типов объектов инвентариз
 --
 -- Create index `UK_equipment_type_name` on table `equipment_type`
 --
-ALTER TABLE equipment_type
-ADD UNIQUE INDEX UK_equipment_type_name (name);
+ALTER TABLE ref_equipment_type
+ADD UNIQUE INDEX UK_ref_equipment_type_name (name);
 
 --
--- Create table `equipment_state`
+-- Create table `ref_equipment_state`
 --
-CREATE TABLE equipment_state (
+CREATE TABLE ref_equipment_state (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 10,
-AVG_ROW_LENGTH = 1820,
 CHARACTER SET utf8mb4,
 COLLATE utf8mb4_general_ci,
 COMMENT = 'Справочник состояний объектов инвентаризации';
@@ -138,22 +132,22 @@ COLLATE utf8mb4_general_ci;
 -- Create foreign key
 --
 ALTER TABLE equipment
-ADD CONSTRAINT FK_equipment_person_id FOREIGN KEY (person_id)
-REFERENCES responsible_person (id);
+ADD CONSTRAINT FK_ref_equipment_person_id FOREIGN KEY (person_id)
+REFERENCES ref_responsible_person (id);
 
 --
 -- Create foreign key
 --
 ALTER TABLE equipment
-ADD CONSTRAINT FK_equipment_state_id FOREIGN KEY (state_id)
-REFERENCES equipment_state (id);
+ADD CONSTRAINT FK_ref_equipment_state_id FOREIGN KEY (state_id)
+REFERENCES ref_equipment_state (id);
 
 --
 -- Create foreign key
 --
 ALTER TABLE equipment
-ADD CONSTRAINT FK_equipment_type_id FOREIGN KEY (type_id)
-REFERENCES equipment_type (id);
+ADD CONSTRAINT FK_ref_equipment_type_id FOREIGN KEY (type_id)
+REFERENCES ref_equipment_type (id);
 
 --
 -- Create table `log`
@@ -171,17 +165,18 @@ CHARACTER SET utf8mb4,
 COLLATE utf8mb4_general_ci;
 
 --
--- Create table `action`
+-- Create table `ref_action`
 --
-CREATE TABLE action (
+CREATE TABLE ref_action (
   id tinyint(4) NOT NULL,
   name varchar(50) NOT NULL,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB,
-AVG_ROW_LENGTH = 3276,
 CHARACTER SET utf8mb4,
 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE ref_action COMMENT = 'Справочник действий с объектами инвентаризации';
 
 -- 
 -- Dumping data for table user
@@ -197,23 +192,23 @@ INSERT INTO role VALUES
 (2, 'admin');
 
 -- 
--- Dumping data for table responsible_person
+-- Dumping data for table ref_responsible_person
 --
-INSERT INTO responsible_person VALUES
+INSERT INTO ref_responsible_person VALUES
 (1, 'test');
 
 -- 
--- Dumping data for table equipment_type
+-- Dumping data for table ref_equipment_type
 --
-INSERT INTO equipment_type VALUES
+INSERT INTO ref_equipment_type VALUES
 (3, 'МФУ'),
 (2, 'Ноутбук'),
 (1, 'Системный блок');
 
 -- 
--- Dumping data for table equipment_state
+-- Dumping data for table ref_equipment_state
 --
-INSERT INTO equipment_state VALUES
+INSERT INTO ref_equipment_state VALUES
 (1, 'Новый'),
 (2, 'В эксплуатации'),
 (3, 'В резерве'),
@@ -227,7 +222,7 @@ INSERT INTO user_role VALUES
 -- 
 -- Dumping data for table action
 --
-INSERT INTO action VALUES
+INSERT INTO ref_action VALUES
 (0, 'Нет действия'),
 (1, 'Создание'),
 (2, 'Изменение'),

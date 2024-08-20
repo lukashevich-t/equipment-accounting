@@ -4,6 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "equipment_state")
-public class State extends ReferenceBase{
+@Table(name = "ref_responsible_person")
+public class ResponsiblePerson extends ReferenceBase {
 }
