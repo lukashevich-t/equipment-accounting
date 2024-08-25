@@ -1,29 +1,36 @@
+buildscript {
+    dependencies {
+        classpath "org.flywaydb:flyway-mysql:10.17.1"
+    }
+}
+
 plugins {
-	id 'java'
-	id 'checkstyle'
-	id 'org.springframework.boot' version '3.2.2'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id("java")
+    id("checkstyle")
+    id("org.springframework.boot") version "3.3.2"
+    id("io.spring.dependency-management") version "1.1.6"
+    id("org.flywaydb.flyway") version "10.17.1"
 }
 
 group = 'by.gto'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-		vendor = JvmVendorSpec.ADOPTIUM
-	}
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
 
 }
 
 tasks.withType(JavaCompile).configureEach {
-	options.encoding = "UTF-8"
+    options.encoding = "UTF-8"
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
@@ -48,9 +55,20 @@ dependencies {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 checkstyle {
-	toolVersion "10.12.1"
+    toolVersion "10.12.1"
+}
+
+flyway {
+    url = 'jdbc:mariadb://localhost:3306'
+    user = 'root'
+    password = '123456'
+    schemas = ['equipment']
+//    placeholders = [
+//            'keyABC': 'valueXYZ',
+//            'otherplaceholder': 'value123'
+//    ]
 }

@@ -4,6 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "responsible_person")
+@Table(name = "ref_responsible_person")
 public class ResponsiblePerson extends ReferenceBase {
 }

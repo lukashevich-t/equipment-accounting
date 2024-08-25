@@ -4,6 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "equipment_type")
+@Table(name = "ref_equipment_type")
 public class EquipmentType extends ReferenceBase {
 }

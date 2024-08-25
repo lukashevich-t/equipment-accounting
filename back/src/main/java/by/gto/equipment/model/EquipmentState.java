@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "equipment_state")
+@Table(name = "ref_equipment_state")
 @NoArgsConstructor
 public class EquipmentState extends ReferenceBase {
     public EquipmentState(int id, String name) {

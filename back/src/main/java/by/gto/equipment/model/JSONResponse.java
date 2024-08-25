@@ -23,9 +23,9 @@ public class JSONResponse {
 
     private Date date = new Date();
 
-    private LocalDate localDate = LocalDate.now();
-
-    private LocalDateTime localDateTime = LocalDateTime.now();
+//    private LocalDate localDate = LocalDate.now();
+//
+//    private LocalDateTime localDateTime = LocalDateTime.now();
 
     public JSONResponse withHttpCode(int httpCode) {
         this.httpCode = httpCode;
